@@ -31,11 +31,14 @@
             <label for="birthday" class="input-label">Дата рождения:</label>
             <input type="date" id="birthday" name="birthday" min="1925-12-31" max="2010-12-31" required class="input-field"><br>
 
-            <label for="role" class="input-label">Роль:</label>
-            <select id="role" name="role" required class="input-field">
+            <label for="roles" class="input-label">Роли:</label>
+            <select id="roles" name="roles" multiple required class="input-field">
                 <option value="admin">Admin</option>
                 <option value="user">User</option>
-            </select><br>
+                <option value="manager">Manager</option>
+            </select>
+            <p class="hint">Вы можете выбрать несколько ролей (CTRL + клик).</p>
+            <br>
 
             <button type="submit" class="button" name="action" value="Добавить">Добавить</button>
         </form>

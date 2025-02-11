@@ -25,11 +25,14 @@
             <input type="text" id="patronymic" name="patronymic" value="${patronymic}" pattern="[А-Яа-яЁё]{2,25}" title="Только русские буквы, 2-25 символов" required class="input-field"><br>
             <label for="birthday" class="input-label">Дата рождения:</label>
             <input type="date" id="birthday" name="birthday" value="${birthday}" min="1925-12-31" max="2010-12-31" required class="input-field"><br>
-            <label for="role" class="input-label">Роль:</label>
-            <select id="role" name="role" required class="input-field">
-                <option value="admin" <c:if test="${role == 'admin'}">selected</c:if>>Admin</option>
-                <option value="user" <c:if test="${role == 'user'}">selected</c:if>>User</option>
-            </select><br>
+            <label for="roles" class="input-label">Роли:</label>
+            <select id="roles" name="roles" multiple required class="input-field">
+                <option value="admin" <c:forEach var="userRole" items="${roles}"><c:if test="${userRole eq 'admin'}">selected</c:if></c:forEach>>Admin</option>
+                <option value="user" <c:forEach var="userRole" items="${roles}"><c:if test="${userRole eq 'user'}">selected</c:if></c:forEach>>User</option>
+                <option value="manager" <c:forEach var="userRole" items="${roles}"><c:if test="${userRole eq 'manager'}">selected</c:if></c:forEach>>Manager</option>
+            </select>
+            <p class="hint">Вы можете выбрать несколько ролей (CTRL + клик).</p>
+            <br>
             <button type="submit" class="button" name="action" value="Сохранить">Сохранить</button>
             <br>
             <a href="${pageContext.request.contextPath}/edituser.jhtml?username=${username}&action=delete" class="delete">Удалить пользователя</a>

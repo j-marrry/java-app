@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebFilter(urlPatterns = {"/users.jhtml", "/adduser.jhtml", "/edituser.jhtml"})
 public class AdminFilter implements Filter {
@@ -20,8 +21,8 @@ public class AdminFilter implements Filter {
         boolean loggedIn = session != null && session.getAttribute("username") != null;
 
         if (loggedIn) {
-            String role = (String) session.getAttribute("role");
-            if (role.equals("admin")) {
+            List<String> roles = (List<String>) session.getAttribute("roles");
+            if (roles.contains("admin")) {
                 chain.doFilter(request, response);
             }
             else {

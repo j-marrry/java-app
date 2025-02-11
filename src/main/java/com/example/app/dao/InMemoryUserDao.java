@@ -3,6 +3,7 @@ package com.example.app.dao;
 import com.example.app.domain.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class InMemoryUserDao implements UserDao{
@@ -12,8 +13,8 @@ public class InMemoryUserDao implements UserDao{
 
     private InMemoryUserDao() {
         try {
-            users.add(new User(1, "user1", "password1", "user1@mail.ru", "lastname1", "firstname1", "patronymic1", "2001-01-01", "admin"));
-            users.add(new User(2, "user2", "password2", "user2@mail.ru", "lastname2", "firstname2", "patronymic2", "2002-02-02", "user"));
+            users.add(new User(1, "user1", "password1", "user1@mail.ru", "lastname1", "firstname1", "patronymic1", "2001-01-01", Arrays.asList("admin")));
+            users.add(new User(2, "user2", "password2", "user2@mail.ru", "lastname2", "firstname2", "patronymic2", "2002-02-02", Arrays.asList("user", "moderator")));
         } catch (Exception e) {
             throw new RuntimeException("Error initializing InMemoryUserDao", e);
         }
@@ -67,7 +68,7 @@ public class InMemoryUserDao implements UserDao{
                 user.setLastname(updatedUser.getLastname());
                 user.setPatronymic(updatedUser.getPatronymic());
                 user.setBirthday(updatedUser.getBirthday());
-                user.setRole(updatedUser.getRole());
+                user.setRoles(new ArrayList<>(updatedUser.getRoles()));
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.example.app.domain;
 
+import java.util.List;
+
 public class User {
     private int id;
     private String username;
@@ -9,9 +11,9 @@ public class User {
     private String firstname;
     private String patronymic;
     private String birthday;
-    private String role;
+    private List<String> roles;
 
-    public User(int id, String username, String password, String email, String lastname, String firstname, String patronymic, String birthday, String role) {
+    public User(int id, String username, String password, String email, String lastname, String firstname, String patronymic, String birthday, List<String> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -20,7 +22,7 @@ public class User {
         this.firstname = firstname;
         this.patronymic = patronymic;
         this.birthday = birthday;
-        this.role = role;
+        this.roles = roles;
     }
 
     public int getId() {
@@ -79,10 +81,10 @@ public class User {
         this.birthday = birthday;
     }
 
-    public String getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }

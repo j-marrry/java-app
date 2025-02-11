@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
             req.getSession().setAttribute("firstname", currentUser.getFirstname());
             req.getSession().setAttribute("patronymic", currentUser.getPatronymic());
             req.getSession().setAttribute("birthday", currentUser.getBirthday());
-            req.getSession().setAttribute("role", currentUser.getRole());
+            req.getSession().setAttribute("roles", currentUser.getRoles());
 
             resp.sendRedirect(req.getContextPath() + "/welcome.jhtml");
         }

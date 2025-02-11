@@ -23,9 +23,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void create(String username, String password, String email, String lastname, String firstname, String patronymic, String birthday, String role) {
+    public void create(String username, String password, String email, String lastname, String firstname, String patronymic, String birthday, List<String> roles) {
         int id = (int)(Math.random() * 1000 + 1);
-        User user = new User(id, username, password, email, lastname, firstname, patronymic, birthday, role);
+        User user = new User(id, username, password, email, lastname, firstname, patronymic, birthday, roles);
         userDao.create(user);
     }
 
@@ -49,8 +49,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(int id, String username, String password, String email, String lastname, String firstname, String patronymic, String birthday, String role) {
-        User user = new User(id, username, password, email, lastname, firstname, patronymic, birthday, role);
+    public void update(int id, String username, String password, String email, String lastname, String firstname, String patronymic, String birthday, List<String> roles) {
+        User user = new User(id, username, password, email, lastname, firstname, patronymic, birthday, roles);
         userDao.update(user);
     }
 

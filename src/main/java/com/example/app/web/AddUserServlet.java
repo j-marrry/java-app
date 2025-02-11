@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 public class AddUserServlet extends HttpServlet {
 
@@ -26,13 +28,10 @@ public class AddUserServlet extends HttpServlet {
         String firstname = req.getParameter("firstname");
         String patronymic = req.getParameter("patronymic");
         String birthday = req.getParameter("birthday");
-        String role = req.getParameter("role");
+        List<String> roles = Collections.singletonList(req.getParameter("roles"));
 
         UserService userService = new ServiceFactory().getUserService();
-        userService.create(username, password, email, lastname, firstname, patronymic, birthday, role);
-
-        /*User user = new User(username, password, email, lastname, firstname, patronymic, birthday, role);
-        Storage.getInstance().addUser(user);*/
+        userService.create(username, password, email, lastname, firstname, patronymic, birthday, roles);
 
         resp.sendRedirect(req.getContextPath() + "/users.jhtml");
     }

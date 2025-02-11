@@ -1,0 +1,33 @@
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    lastname VARCHAR(50),
+    firstname VARCHAR(50),
+    patronymic VARCHAR(50),
+    birthday DATE
+);
+
+CREATE TABLE user_roles (
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    role_id INT REFERENCES roles(id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, role_id)
+);
+
+INSERT INTO roles (name) VALUES ('admin'), ('user'), ('manager');
+
+INSERT INTO users (username, password, email, lastname, firstname, patronymic, birthday) VALUES
+('user1', 'password1', 'user1@mail.ru', 'lastname1', 'firstname1', 'patronymic1', '2001-01-01'),
+('user2', 'password2', 'user2@mail.ru', 'lastname2', 'firstname2', 'patronymic2', '2002-02-02');
+
+INSERT INTO user_roles (user_id, role_id)
+VALUES
+(1, 1),
+(2, 2),
+(2, 3);

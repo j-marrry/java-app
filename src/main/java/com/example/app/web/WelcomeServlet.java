@@ -12,7 +12,7 @@ public class WelcomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("user", req.getParameter("user"));
-        req.setAttribute("role", req.getSession().getAttribute("role"));
+        req.setAttribute("roles", req.getSession().getAttribute("roles"));
 
         String action = req.getParameter("action");
         if (action != null) {

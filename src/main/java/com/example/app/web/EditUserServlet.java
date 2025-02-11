@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 public class EditUserServlet extends HttpServlet {
 
@@ -18,7 +20,6 @@ public class EditUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String username = req.getParameter("username");
-        //User user = Storage.getInstance().getUser(username);
         UserService userService = new ServiceFactory().getUserService();
         User user = userService.findByUsername(username);
 
@@ -40,7 +41,7 @@ public class EditUserServlet extends HttpServlet {
             String firstname = user.getFirstname();
             String patronymic = user.getPatronymic();
             String birthday = user.getBirthday();
-            String role = user.getRole();
+            List<String> roles = user.getRoles();
             req.setAttribute("username", username);
             req.setAttribute("password", password);
             req.setAttribute("email", email);
@@ -48,7 +49,7 @@ public class EditUserServlet extends HttpServlet {
             req.setAttribute("firstname", firstname);
             req.setAttribute("patronymic", patronymic);
             req.setAttribute("birthday", birthday);
-            req.setAttribute("role", role);
+            req.setAttribute("roles", roles);
             req.getRequestDispatcher("/WEB-INF/jsp/edit_user.jsp").forward(req, resp);
         }
 
@@ -58,7 +59,6 @@ public class EditUserServlet extends HttpServlet {
         String name = req.getParameter("login");
         UserService userService = new ServiceFactory().getUserService();
         User user = userService.findByUsername(name);
-        //User user = Storage.getInstance().getUser(name);
 
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -67,17 +67,9 @@ public class EditUserServlet extends HttpServlet {
         String firstname = req.getParameter("firstname");
         String patronymic = req.getParameter("patronymic");
         String birthday = req.getParameter("birthday");
-        String role = req.getParameter("role");
+        List<String> roles = Collections.singletonList(req.getParameter("roles"));
 
-        userService.update(user.getId(), username, password, email, lastname, firstname, patronymic, birthday, role);
-        /*user.setUsername(username);
-        user.setPassword(password);
-        user.setEmail(email);
-        user.setLastname(lastname);
-        user.setFirstname(firstname);
-        user.setPatronymic(patronymic);
-        user.setBirthday(birthday);
-        user.setRole(role);*/
+        userService.update(user.getId(), username, password, email, lastname, firstname, patronymic, birthday, roles);
 
         HttpSession session = req.getSession();
 
@@ -89,7 +81,7 @@ public class EditUserServlet extends HttpServlet {
             session.setAttribute("firstname", firstname);
             session.setAttribute("patronymic", patronymic);
             session.setAttribute("birthday", birthday);
-            session.setAttribute("role", role);
+            session.setAttribute("roles", roles);
         }
 
         resp.sendRedirect(req.getContextPath() + "/users.jhtml");

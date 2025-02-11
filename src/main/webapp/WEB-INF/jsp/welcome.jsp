@@ -24,7 +24,7 @@
             </form>
         </div>
     </div>
-    <t:menu role="${sessionScope.role}" />
+    <t:menu roles="${sessionScope.roles}" />
 </div>
 </body>
 </html>
