@@ -1,26 +1,17 @@
 package com.example.app.service;
 
-import com.example.app.dao.DaoFactory;
 import com.example.app.dao.UserDao;
 import com.example.app.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
-    private static UserServiceImpl instance = new UserServiceImpl();
+    @Autowired
     private UserDao userDao;
-
-    public UserServiceImpl() {
-        userDao = new DaoFactory().getUserDao();
-    }
-
-    public static synchronized UserServiceImpl getInstance() {
-        if (instance == null) {
-            instance = new UserServiceImpl();
-        }
-        return instance;
-    }
 
     @Override
     public void create(String username, String password, String email, String lastname, String firstname, String patronymic, String birthday, List<String> roles) {
@@ -70,5 +61,6 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("User not found for username: " + username);
         }
         user.setPassword(newPassword);
+        userDao.update(user);
     }
 }

@@ -1,26 +1,30 @@
 package com.example.app.web;
 
 import com.example.app.domain.User;
-import com.example.app.service.ServiceFactory;
 import com.example.app.service.UserService;
-import com.example.app.service.UserServiceImpl;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+@WebServlet("/edituser.jhtml")
 public class EditUserServlet extends HttpServlet {
+
+    @Autowired
+    private UserService userService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String username = req.getParameter("username");
-        UserService userService = new ServiceFactory().getUserService();
         User user = userService.findByUsername(username);
 
         String action = req.getParameter("action");
@@ -57,7 +61,6 @@ public class EditUserServlet extends HttpServlet {
 
     @Override protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("login");
-        UserService userService = new ServiceFactory().getUserService();
         User user = userService.findByUsername(name);
 
         String username = req.getParameter("username");

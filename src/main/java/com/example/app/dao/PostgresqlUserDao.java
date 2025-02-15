@@ -1,21 +1,16 @@
 package com.example.app.dao;
 
 import com.example.app.domain.User;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
+@Primary
 public class PostgresqlUserDao implements UserDao {
-
-    private static PostgresqlUserDao instance;
-
-    public static synchronized PostgresqlUserDao getInstance() {
-        if (instance == null) {
-            instance = new PostgresqlUserDao();
-        }
-        return instance;
-    }
 
     public static final String jdbcDriver = "org.postgresql.Driver";
     private static final String jdbcUrl = "jdbc:postgresql://localhost:5432/app";

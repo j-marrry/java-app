@@ -1,14 +1,15 @@
 package com.example.app.dao;
 
 import com.example.app.domain.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Repository
 public class InMemoryUserDao implements UserDao{
 
-    private static InMemoryUserDao instance;
     private final List<User> users = new ArrayList<>();
 
     private InMemoryUserDao() {
@@ -18,13 +19,6 @@ public class InMemoryUserDao implements UserDao{
         } catch (Exception e) {
             throw new RuntimeException("Error initializing InMemoryUserDao", e);
         }
-    }
-
-    public static synchronized InMemoryUserDao getInstance() {
-        if (instance == null) {
-            instance = new InMemoryUserDao();
-        }
-        return instance;
     }
 
     @Override

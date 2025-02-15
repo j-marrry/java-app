@@ -1,17 +1,23 @@
 package com.example.app.web;
 
+import com.example.app.dao.UserDao;
 import com.example.app.domain.User;
-import com.example.app.service.ServiceFactory;
 import com.example.app.service.UserService;
-import com.example.app.service.UserServiceImpl;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@WebServlet("/login.jhtml")
 public class LoginServlet extends HttpServlet {
+
+    @Autowired
+    private UserService userService;
 
     private User currentUser;
 
@@ -24,8 +30,7 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("login");
         String password = req.getParameter("password");
 
-        UserService userService = new ServiceFactory().getUserService();
-
+        System.out.println(userService);
         if (userService.checkPassword(username, password)) {
             currentUser = userService.findByUsername(username);
 
