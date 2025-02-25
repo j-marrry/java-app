@@ -25,13 +25,31 @@
             <input type="text" id="patronymic" name="patronymic" value="${patronymic}" pattern="[А-Яа-яЁё]{2,25}" title="Только русские буквы, 2-25 символов" required class="input-field"><br>
             <label for="birthday" class="input-label">Дата рождения:</label>
             <input type="date" id="birthday" name="birthday" value="${birthday}" min="1925-12-31" max="2010-12-31" required class="input-field"><br>
-            <label for="roles" class="input-label">Роли:</label>
-            <select id="roles" name="roles" multiple required class="input-field">
-                <option value="admin" <c:forEach var="userRole" items="${roles}"><c:if test="${userRole eq 'admin'}">selected</c:if></c:forEach>>Admin</option>
-                <option value="user" <c:forEach var="userRole" items="${roles}"><c:if test="${userRole eq 'user'}">selected</c:if></c:forEach>>User</option>
-                <option value="manager" <c:forEach var="userRole" items="${roles}"><c:if test="${userRole eq 'manager'}">selected</c:if></c:forEach>>Manager</option>
-            </select>
-            <p class="hint">Вы можете выбрать несколько ролей (CTRL + клик).</p>
+            <label class="input-label">Роли:</label>
+            <div class="checkbox-group">
+                <label>
+                    <input type="checkbox" name="roles" value="admin"
+                        <c:forEach var="userRole" items="${roles}">
+                            <c:if test="${userRole eq 'admin'}">checked</c:if>
+                        </c:forEach>
+                    > Admin
+                </label>
+                <label>
+                    <input type="checkbox" name="roles" value="user"
+                        <c:forEach var="userRole" items="${roles}">
+                            <c:if test="${userRole eq 'user'}">checked</c:if>
+                        </c:forEach>
+                    > User
+                </label>
+                <label>
+                    <input type="checkbox" name="roles" value="manager"
+                        <c:forEach var="userRole" items="${roles}">
+                            <c:if test="${userRole eq 'manager'}">checked</c:if>
+                        </c:forEach>
+                    > Manager
+                </label>
+            </div>
+            <p class="hint">Вы можете выбрать несколько ролей.</p>
             <br>
             <button type="submit" class="button" name="action" value="Сохранить">Сохранить</button>
             <br>

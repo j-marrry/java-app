@@ -11,6 +11,7 @@ public interface UserDao {
     User findByUsername(String username);
     List<User> findAll();
     void create(User user);
+    void createUserRole(User user);
     void update(User user);
     void delete(int id);
 }

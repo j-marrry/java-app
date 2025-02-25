@@ -10,12 +10,14 @@
         <div class="users">
             <a href="${pageContext.request.contextPath}/adduser.jhtml" class="add">Добавить пользователя</a>
             <table>
+            <th>Логин</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
                 <c:forEach items="${users}" var="user">
                     <tr>
                         <td><a href="${pageContext.request.contextPath}/edituser.jhtml?username=${user.username}" class="a">${user.username}</a></td>
-                    </tr>
-                    <tr>
-                        <td>${user.lastname} ${user.firstname}</td>
+                        <td>${user.lastname}</td>
+                        <td>${user.firstname}</td>
                     </tr>
                 </c:forEach>
             </table>

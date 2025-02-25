@@ -70,6 +70,22 @@ body{
     justify-content: space-evenly;
 }
 
+table{
+    border: #481803 1px solid;
+    border-collapse: collapse;
+    width: 60%;
+    td{
+        font-size: 24px;
+        border: #481803 1px solid;
+        padding: 4px;
+    }
+    th{
+        font-size: 26px;
+        font-weight: bold;
+        border: #481803 1px solid;
+    }
+}
+
 a{
     font-size: 36px;
     color: #FFFFFF;
@@ -79,6 +95,7 @@ a{
 .a{
     color: #481803;
     font-size: 24px;
+    text-decoration: underline;
 }
 
 .a:hover{
@@ -116,3 +133,11 @@ a{
     margin-top: 0;
     font-size: 64px;
 }
+
+.users{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+

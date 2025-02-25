@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
         int id = (int)(Math.random() * 1000 + 1);
         User user = new User(username, password, email, lastname, firstname, patronymic, birthday, roles);
         userDao.create(user);
+        userDao.createUserRole(user);
     }
 
 

@@ -105,3 +105,7 @@ a{
     color: #481803;
     text-decoration: underline;
 }
+
+.checkbox-group{
+    font-size: 26px;
+}

@@ -120,6 +120,11 @@ public class PostgresqlUserDao implements UserDao {
     }
 
     @Override
+    public void createUserRole(User user) {
+
+    }
+
+    @Override
     public void update(User updatedUser) {
         String sql = "UPDATE users SET username = ?, password = ?, email = ?, lastname = ?, firstname = ?, patronymic = ?, birthday = ? WHERE id = ?";
         Connection c = null;

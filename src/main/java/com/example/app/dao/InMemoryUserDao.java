@@ -53,6 +53,11 @@ public class InMemoryUserDao implements UserDao{
     }
 
     @Override
+    public void createUserRole(User user) {
+
+    }
+
+    @Override
     public void update(User updatedUser) {
         for (User user : users) {
             if(user.getId() == updatedUser.getId()){

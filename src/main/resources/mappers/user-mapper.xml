@@ -7,22 +7,24 @@
     <insert id="create" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO users (username, password, email, lastname, firstname, patronymic, birthday)
         VALUES (#{username}, #{password}, #{email}, #{lastname}, #{firstname}, #{patronymic}, #{birthday});
+    </insert>
 
+    <insert id="createUserRole" keyProperty="id" useGeneratedKeys="true">
         <foreach collection="roles" item="role">
             INSERT INTO user_roles (user_id, role_id)
-            VALUES ((SELECT currval('users_id_seq')), (SELECT id FROM roles WHERE name = #{role}))
+            VALUES ((SELECT currval('users_id_seq')), (SELECT id FROM roles WHERE name = #{role}));
         </foreach>
     </insert>
 
     <select id="findAll" resultMap="UserMap">
         SELECT u.*, ARRAY(SELECT r.name FROM roles r JOIN user_roles ur ON r.id = ur.role_id WHERE ur.user_id = u.id) AS roles
-        FROM users u
+        FROM users u;
     </select>
 
     <select id="findByUsername" resultMap="UserMap">
         SELECT u.*, ARRAY(SELECT r.name FROM roles r JOIN user_roles ur ON r.id = ur.role_id WHERE ur.user_id = u.id) AS roles
         FROM users u
-        WHERE u.username = #{username}
+        WHERE u.username = #{username};
     </select>
 
     <delete id="delete">
@@ -30,7 +32,7 @@
         WHERE user_id = #{id};
 
         DELETE FROM users
-        WHERE id = #{id}
+        WHERE id = #{id};
     </delete>
 
     <update id="update">
@@ -48,7 +50,7 @@
 
         <foreach collection="roles" item="role" separator=";">
             INSERT INTO user_roles (user_id, role_id)
-            VALUES (#{id}, (SELECT id FROM roles WHERE name = #{role}))
+            VALUES (#{id}, (SELECT id FROM roles WHERE name = #{role}));
         </foreach>
     </update>
 
