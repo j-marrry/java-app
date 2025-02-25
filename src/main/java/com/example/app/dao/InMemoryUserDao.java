@@ -3,19 +3,20 @@ package com.example.app.dao;
 import com.example.app.domain.User;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Repository
+//@Repository
 public class InMemoryUserDao implements UserDao{
 
     private final List<User> users = new ArrayList<>();
 
-    private InMemoryUserDao() {
+    public InMemoryUserDao() {
         try {
-            users.add(new User(1, "user1", "password1", "user1@mail.ru", "lastname1", "firstname1", "patronymic1", "2001-01-01", Arrays.asList("admin")));
-            users.add(new User(2, "user2", "password2", "user2@mail.ru", "lastname2", "firstname2", "patronymic2", "2002-02-02", Arrays.asList("user", "moderator")));
+            users.add(new User(1, "user1", "password1", "user1@mail.ru", "lastname1", "firstname1", "patronymic1", LocalDate.parse("2001-01-01"), Arrays.asList("admin")));
+            users.add(new User(2, "user2", "password2", "user2@mail.ru", "lastname2", "firstname2", "patronymic2", LocalDate.parse("2002-02-02"), Arrays.asList("user", "moderator")));
         } catch (Exception e) {
             throw new RuntimeException("Error initializing InMemoryUserDao", e);
         }

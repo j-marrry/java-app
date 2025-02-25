@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace="com.example.app.dao.UserDao">
+
+    <insert id="create" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO users (username, password, email, lastname, firstname, patronymic, birthday)
+        VALUES (#{username}, #{password}, #{email}, #{lastname}, #{firstname}, #{patronymic}, #{birthday});
+
+        <foreach collection="roles" item="role">
+            INSERT INTO user_roles (user_id, role_id)
+            VALUES ((SELECT currval('users_id_seq')), (SELECT id FROM roles WHERE name = #{role}))
+        </foreach>
+    </insert>
+
+    <select id="findAll" resultMap="UserMap">
+        SELECT u.*, ARRAY(SELECT r.name FROM roles r JOIN user_roles ur ON r.id = ur.role_id WHERE ur.user_id = u.id) AS roles
+        FROM users u
+    </select>
+
+    <select id="findByUsername" resultMap="UserMap">
+        SELECT u.*, ARRAY(SELECT r.name FROM roles r JOIN user_roles ur ON r.id = ur.role_id WHERE ur.user_id = u.id) AS roles
+        FROM users u
+        WHERE u.username = #{username}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM user_roles
+        WHERE user_id = #{id};
+
+        DELETE FROM users
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update">
+        UPDATE users
+        SET username = #{username},
+            password = #{password},
+            email = #{email},
+            lastname = #{lastname},
+            firstname = #{firstname},
+            patronymic = #{patronymic},
+            birthday = #{birthday}
+        WHERE id = #{id};
+
+        DELETE FROM user_roles WHERE user_id = #{id};
+
+        <foreach collection="roles" item="role" separator=";">
+            INSERT INTO user_roles (user_id, role_id)
+            VALUES (#{id}, (SELECT id FROM roles WHERE name = #{role}))
+        </foreach>
+    </update>
+
+    <resultMap id="UserMap" type="User" autoMapping="true"/>
+</mapper>

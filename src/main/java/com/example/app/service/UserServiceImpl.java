@@ -5,20 +5,28 @@ import com.example.app.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserDao userDao;
+    /*@Autowired
+    private UserDao userDao;*/
+
+    private final UserDao userDao;
+
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
-    public void create(String username, String password, String email, String lastname, String firstname, String patronymic, String birthday, List<String> roles) {
+    public void create(String username, String password, String email, String lastname, String firstname, String patronymic, LocalDate birthday, List<String> roles) {
         int id = (int)(Math.random() * 1000 + 1);
-        User user = new User(id, username, password, email, lastname, firstname, patronymic, birthday, roles);
+        User user = new User(username, password, email, lastname, firstname, patronymic, birthday, roles);
         userDao.create(user);
     }
+
 
     @Override
     public List<User> findAll() {
@@ -40,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(int id, String username, String password, String email, String lastname, String firstname, String patronymic, String birthday, List<String> roles) {
+    public void update(int id, String username, String password, String email, String lastname, String firstname, String patronymic, LocalDate birthday, List<String> roles) {
         User user = new User(id, username, password, email, lastname, firstname, patronymic, birthday, roles);
         userDao.update(user);
     }
@@ -49,7 +57,7 @@ public class UserServiceImpl implements UserService {
     public boolean checkPassword(String username, String oldPassword) {
         User user = userDao.findByUsername(username);
         if (user == null) {
-            throw new IllegalArgumentException("User not found for username: " + username);
+            return false;
         }
         return user.getPassword().equals(oldPassword);
     }

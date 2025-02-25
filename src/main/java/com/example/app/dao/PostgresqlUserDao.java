@@ -5,11 +5,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
-@Primary
+//@Repository
+//@Primary
 public class PostgresqlUserDao implements UserDao {
 
     public static final String jdbcDriver = "org.postgresql.Driver";
@@ -176,7 +177,7 @@ public class PostgresqlUserDao implements UserDao {
                 rs.getString("lastname"),
                 rs.getString("firstname"),
                 rs.getString("patronymic"),
-                rs.getDate("birthday").toString(),
+                LocalDate.parse(rs.getDate("birthday").toString()),
                 null
         );
         user.setRoles(List.of((String[]) rs.getArray("roles").getArray()));

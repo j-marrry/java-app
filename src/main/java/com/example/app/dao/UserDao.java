@@ -1,9 +1,11 @@
 package com.example.app.dao;
 
 import com.example.app.domain.User;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+@Mapper
 public interface UserDao {
     User read(int id);
     User findByUsername(String username);

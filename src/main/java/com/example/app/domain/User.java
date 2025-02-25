@@ -1,5 +1,6 @@
 package com.example.app.domain;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class User {
@@ -10,11 +11,22 @@ public class User {
     private String lastname;
     private String firstname;
     private String patronymic;
-    private String birthday;
+    private LocalDate birthday;
     private List<String> roles;
 
-    public User(int id, String username, String password, String email, String lastname, String firstname, String patronymic, String birthday, List<String> roles) {
+    public User(int id, String username, String password, String email, String lastname, String firstname, String patronymic, LocalDate birthday, List<String> roles) {
         this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.patronymic = patronymic;
+        this.birthday = birthday;
+        this.roles = roles;
+    }
+
+    public User(String username, String password, String email, String lastname, String firstname, String patronymic, LocalDate birthday, List<String> roles) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -74,10 +86,10 @@ public class User {
         this.patronymic = patronymic;
     }
 
-    public String getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
-    public void setBirthday(String birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,8 +34,8 @@ public class AddUserServlet extends HttpServlet {
         String lastname = req.getParameter("lastname");
         String firstname = req.getParameter("firstname");
         String patronymic = req.getParameter("patronymic");
-        String birthday = req.getParameter("birthday");
-        List<String> roles = Collections.singletonList(req.getParameter("roles"));
+        LocalDate birthday = LocalDate.parse(req.getParameter("birthday"));
+        List<String> roles = Arrays.asList(req.getParameterValues("roles"));
 
         userService.create(username, password, email, lastname, firstname, patronymic, birthday, roles);
 

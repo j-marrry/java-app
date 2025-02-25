@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,7 +36,6 @@ public class EditUserServlet extends HttpServlet {
                     req.getSession().invalidate();
                 }
                 userService.delete(user.getId());
-                //Storage.getInstance().deleteUser(user);
                 resp.sendRedirect(req.getContextPath() + "/users.jhtml");
             }
         }
@@ -44,7 +45,7 @@ public class EditUserServlet extends HttpServlet {
             String lastname = user.getLastname();
             String firstname = user.getFirstname();
             String patronymic = user.getPatronymic();
-            String birthday = user.getBirthday();
+            LocalDate birthday = user.getBirthday();
             List<String> roles = user.getRoles();
             req.setAttribute("username", username);
             req.setAttribute("password", password);
@@ -69,8 +70,8 @@ public class EditUserServlet extends HttpServlet {
         String lastname = req.getParameter("lastname");
         String firstname = req.getParameter("firstname");
         String patronymic = req.getParameter("patronymic");
-        String birthday = req.getParameter("birthday");
-        List<String> roles = Collections.singletonList(req.getParameter("roles"));
+        LocalDate birthday = LocalDate.parse(req.getParameter("birthday"));
+        List<String> roles = Arrays.asList(req.getParameterValues("roles"));
 
         userService.update(user.getId(), username, password, email, lastname, firstname, patronymic, birthday, roles);
 
