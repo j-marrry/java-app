@@ -1,5 +1,7 @@
 package com.example.app.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class User {
     private String lastname;
     private String firstname;
     private String patronymic;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     private List<String> roles;
 
@@ -35,6 +38,10 @@ public class User {
         this.patronymic = patronymic;
         this.birthday = birthday;
         this.roles = roles;
+    }
+
+    public User() {
+
     }
 
     public int getId() {
