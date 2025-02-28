@@ -46,6 +46,8 @@
             <p class="hint">Вы можете выбрать несколько ролей.</p>
             <br>
 
+            <div class="error-message">${errorMessage}</div>
+
             <button type="submit" class="button">Сохранить</button>
             <br>
             <a href="${pageContext.request.contextPath}/edituser.jhtml?username=${user.username}&action=delete" class="delete">Удалить пользователя</a>

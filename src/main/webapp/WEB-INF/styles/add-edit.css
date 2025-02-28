@@ -109,3 +109,7 @@ a{
 span label{
     font-size: 26px;
 }
+
+.error-message {
+    height: 20px;
+}

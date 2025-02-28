@@ -1,5 +1,6 @@
 package com.example.app.domain;
 
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -7,12 +8,31 @@ import java.util.List;
 
 public class User {
     private int id;
+    @NotNull(message = "Имя пользователя не может быть пустым")
+    @Size(min = 5, max = 20, message = "Имя пользователя должно содержать от 5 до 20 символов")
+    @Pattern(regexp = "[A-Za-z0-9]{5,20}", message = "Имя пользователя должно состоять только из английских букв и цифр")
     private String username;
+    @NotNull(message = "Пароль не может быть пустым")
+    @Size(min = 8, max = 20, message = "Пароль должен содержать от 8 до 20 символов")
+    @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}", message = "Пароль должен содержать хотя бы одну букву и цифру")
     private String password;
+    @NotNull(message = "Почта не божет быть пустой")
+    @Email
     private String email;
+    @NotNull(message = "Фамилия не может быть пустой")
+    @Size(min = 2, max = 25, message = "Фамилия должна содержать от 2 до 25 символов")
+    @Pattern(regexp = "[А-Яа-яЁё]{2,25}", message = "Фамилия должна состоять только из русских букв")
     private String lastname;
+    @NotNull(message = "Имя не может быть пустым")
+    @Size(min = 2, max = 25, message = "Имя должно содержать от 2 до 25 символов")
+    @Pattern(regexp = "[А-Яа-яЁё]{2,25}", message = "Имя должно состоять только из русских букв")
     private String firstname;
+    @NotNull(message = "Отчество не может быть пустым")
+    @Size(min = 2, max = 25, message = "Отчество должно содержать от 2 до 25 символов")
+    @Pattern(regexp = "[А-Яа-яЁё]{2,25}", message = "Отчество должно состоять только из русских букв")
     private String patronymic;
+    @NotNull(message = "Дата рождения не может быть пустой")
+    @Past(message = "Некорректная дата рождения")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     private List<String> roles;

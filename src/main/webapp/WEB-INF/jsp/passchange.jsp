@@ -19,7 +19,7 @@
             </div>
             <div class="label-and-text">
                 <label for="newpass" class="input-label">НОВЫЙ ПАРОЛЬ</label>
-                <form:input path="newPassword" id="newpass" type="password" required="true" class="input-field"/>
+                <form:input path="newPassword" id="newpass" type="password" pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}" title="Пароль должен содержать буквы и цифры, 8-20 символов" required="true" class="input-field"/>
             </div>
             <div class="label-and-text">
                 <label for="reppass" class="input-label">ПОВТОР ПАРОЛЯ</label>

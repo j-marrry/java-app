@@ -34,13 +34,15 @@
             <br>
 
             <label for="birthday" class="input-label">Дата рождения:</label>
-            <form:input path="birthday" type="date" min="1925-12-31" max="2010-12-31" required="true" class="input-field"/>
+            <form:input path="birthday" type="date" required="true" class="input-field"/>
             <br>
 
             <label class="input-label">Роли:</label>
             <form:checkboxes path="roles" items="${rolesList}" class="checkbox-group"/>
             <p class="hint">Вы можете выбрать несколько ролей.</p>
             <br>
+
+            <div class="error-message">${errorMessage}</div>
 
             <button type="submit" class="button" name="action" value="Добавить">Добавить</button>
         </form:form>

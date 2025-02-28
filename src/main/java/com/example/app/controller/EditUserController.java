@@ -3,6 +3,7 @@ package com.example.app.controller;
 import com.example.app.domain.User;
 import com.example.app.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,11 +49,13 @@ public class EditUserController {
     }
 
     @PostMapping
-    public String editUser(@ModelAttribute("user") User user,
-                           BindingResult result,
+    public String editUser(@Valid @ModelAttribute("user") User user,
+                           BindingResult result, Model model,
                            HttpSession session) {
 
         if (result.hasErrors()) {
+            String errorMessage = result.getFieldError().getDefaultMessage();
+            model.addAttribute("errorMessage", errorMessage);
             return "edit_user";
         }
 
