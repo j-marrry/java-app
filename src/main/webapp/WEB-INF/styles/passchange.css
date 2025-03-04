@@ -90,3 +90,9 @@ body {
 .error-message {
     height: 20px;
 }
+
+.main{
+    font-size: 22px;
+    color: #481803;
+    text-decoration: underline;
+}

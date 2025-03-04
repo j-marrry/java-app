@@ -32,7 +32,6 @@ public class EditUserController {
                                    Model model) {
 
         User user = userService.findByUsername(username);
-        System.out.println(user.getBirthday().toString());
 
         if ("delete".equals(action)) {
             if (username.equals(session.getAttribute("username"))) {
@@ -54,6 +53,8 @@ public class EditUserController {
                            HttpSession session) {
 
         if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("rolesList", List.of("admin", "user", "manager"));
             String errorMessage = result.getFieldError().getDefaultMessage();
             model.addAttribute("errorMessage", errorMessage);
             return "edit_user";

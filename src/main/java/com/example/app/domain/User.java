@@ -8,31 +8,30 @@ import java.util.List;
 
 public class User {
     private int id;
-    @NotNull(message = "Имя пользователя не может быть пустым")
-    @Size(min = 5, max = 20, message = "Имя пользователя должно содержать от 5 до 20 символов")
-    @Pattern(regexp = "[A-Za-z0-9]{5,20}", message = "Имя пользователя должно состоять только из английских букв и цифр")
+    @NotNull(message = "{user.username-notnull}")
+    @Size(min = 5, max = 20, message = "{user.username-size}")
+    @Pattern(regexp = "[A-Za-z0-9]{5,20}", message = "{user.username-pattern}")
     private String username;
-    @NotNull(message = "Пароль не может быть пустым")
-    @Size(min = 8, max = 20, message = "Пароль должен содержать от 8 до 20 символов")
-    @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}", message = "Пароль должен содержать хотя бы одну букву и цифру")
+    @NotNull(message = "{user.password-notnull}")
+    @Size(min = 8, max = 20, message = "{user.password-size}")
+    @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}", message = "{user.password-pattern}")
     private String password;
-    @NotNull(message = "Почта не божет быть пустой")
-    @Email
+    @NotNull(message = "{user.email-notnull}")
+    @Email(message = "{user.email-invalid}")
     private String email;
-    @NotNull(message = "Фамилия не может быть пустой")
-    @Size(min = 2, max = 25, message = "Фамилия должна содержать от 2 до 25 символов")
-    @Pattern(regexp = "[А-Яа-яЁё]{2,25}", message = "Фамилия должна состоять только из русских букв")
+    @NotNull(message = "{user.lastname-notnull}")
+    @Size(min = 2, max = 25, message = "{user.lastname-size}")
+    @Pattern(regexp = "[А-Яа-яЁёA-Za-z]{2,25}", message = "{user.lastname-pattern}")
     private String lastname;
-    @NotNull(message = "Имя не может быть пустым")
-    @Size(min = 2, max = 25, message = "Имя должно содержать от 2 до 25 символов")
-    @Pattern(regexp = "[А-Яа-яЁё]{2,25}", message = "Имя должно состоять только из русских букв")
+    @NotNull(message = "{user.firstname-notnull}")
+    @Size(min = 2, max = 25, message = "{user.firstname-size}")
+    @Pattern(regexp = "[А-Яа-яЁёA-Za-z]{2,25}", message = "{user.firstname-pattern}")
     private String firstname;
-    @NotNull(message = "Отчество не может быть пустым")
-    @Size(min = 2, max = 25, message = "Отчество должно содержать от 2 до 25 символов")
-    @Pattern(regexp = "[А-Яа-яЁё]{2,25}", message = "Отчество должно состоять только из русских букв")
+    @Size(min = 2, max = 25, message = "{user.patronymic-size}")
+    @Pattern(regexp = "[А-Яа-яЁёA-Za-z]{2,25}", message = "{user.patronymic-pattern}")
     private String patronymic;
-    @NotNull(message = "Дата рождения не может быть пустой")
-    @Past(message = "Некорректная дата рождения")
+    @NotNull(message = "{user.birthday-notnull}")
+    @Past(message = "{user.birthday-past}")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     private List<String> roles;
