@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,35 +22,31 @@ import java.util.Locale;
 public class LoginController {
     private final UserService userService;
     private final MessageSource messageSource;
-    private final HttpServletRequest request;
 
     @Autowired
-    public LoginController(UserService userService, MessageSource messageSource, HttpServletRequest httpServletRequest, HttpServletRequest request) {
+    public LoginController(UserService userService, MessageSource messageSource) {
         this.userService = userService;
         this.messageSource = messageSource;
-        this.request = request;
     }
 
     @GetMapping
-    public String showLoginForm(HttpSession session) {
-        session.invalidate();
+    public String showLoginForm(@RequestParam(value = "error", required = false) String error,
+                                Model model,
+                                HttpServletRequest request) {
+        if (error != null) {
+            Locale locale = request.getLocale();
+            String errorMessage = messageSource.getMessage("login.errorMessage", null, locale);
+            model.addAttribute("errorMessage", errorMessage);
+        }
         return "login";
     }
 
-    @PostMapping
+    /*@PostMapping
     public String login(@RequestParam("login") String login,
                         @RequestParam("password") String password,
                         Model model, HttpSession session) {
         if(userService.checkPassword(login, password)) {
-            User currentUser = userService.findByUsername(login);
-            session.setAttribute("username", currentUser.getUsername());
-            session.setAttribute("password", currentUser.getPassword());
-            session.setAttribute("email", currentUser.getEmail());
-            session.setAttribute("lastname", currentUser.getLastname());
-            session.setAttribute("firstname", currentUser.getFirstname());
-            session.setAttribute("patronymic", currentUser.getPatronymic());
-            session.setAttribute("birthday", currentUser.getBirthday());
-            session.setAttribute("roles", currentUser.getRoles());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             return "redirect:/welcome.jhtml";
         }
@@ -62,5 +60,5 @@ public class LoginController {
             model.addAttribute("errorMessage", errorMessage);
             return "login";
         }
-    }
+    }*/
 }

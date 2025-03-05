@@ -14,7 +14,7 @@
         <form action="${pageContext.request.contextPath}/login.jhtml" class="login-form" method="post">
             <div class="label-and-text">
                 <label for="login" class="input-label"><spring:message code="login.login"/></label>
-                <input name="login" id="login" class="input-field" required>
+                <input name="username" id="login" class="input-field" required>
             </div>
             <div class="label-and-text">
                 <label for="password" class="input-label"><spring:message code="login.password"/></label>

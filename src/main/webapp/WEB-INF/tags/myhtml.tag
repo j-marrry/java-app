@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="flex-container">
-    <t:menu roles="${sessionScope.roles}" />
+    <t:menu/>
     <jsp:invoke fragment="body" />
 </div>
 </body>

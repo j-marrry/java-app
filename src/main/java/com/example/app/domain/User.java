@@ -2,19 +2,21 @@ package com.example.app.domain;
 
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class User {
+public class User implements UserDetails {
     private int id;
     @NotNull(message = "{user.username-notnull}")
     @Size(min = 5, max = 20, message = "{user.username-size}")
     @Pattern(regexp = "[A-Za-z0-9]{5,20}", message = "{user.username-pattern}")
     private String username;
     @NotNull(message = "{user.password-notnull}")
-    @Size(min = 8, max = 20, message = "{user.password-size}")
-    @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}", message = "{user.password-pattern}")
     private String password;
     @NotNull(message = "{user.email-notnull}")
     @Email(message = "{user.email-invalid}")
@@ -73,8 +75,36 @@ public class User {
     public String getUsername() {
         return username;
     }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(role -> (GrantedAuthority) () -> "ROLE_" + role.toUpperCase())
+                .collect(Collectors.toList());
     }
 
     public String getPassword() {

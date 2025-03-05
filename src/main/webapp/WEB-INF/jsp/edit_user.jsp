@@ -25,9 +25,7 @@
             <form:input path="username" id="username" pattern="[A-Za-z0-9]{5,20}" title="${localizedMsgValidUsername}" required="true" class="input-field"/>
             <br>
 
-            <label for="password" class="input-label"><spring:message code="add-edit.password"/>:</label>
-            <form:input path="password" id="password" pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}" title="${localizedMsgValidPassword}" required="true" class="input-field"/>
-            <br>
+            <form:hidden path="password"/>
 
             <label for="email" class="input-label"><spring:message code="add-edit.email"/>:</label>
             <form:input path="email" type="email" id="email" pattern="[a-zA-Z0-9._%+-]+@(mail\.ru|gmail\.com)" title="${localizedMsgValidEmail}" required="true" class="input-field"/>

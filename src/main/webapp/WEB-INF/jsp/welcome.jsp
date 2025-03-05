@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <style>
     <%@include file='../styles/welcome.css' %>
@@ -19,7 +19,7 @@
         </div>
         <div class="cont">
             <div class="hello-text">
-                <spring:message code="welcome.hello"/>, ${username}
+                <spring:message code="welcome.hello"/>, <sec:authentication property="principal.username"/>
             </div>
             <form action="${pageContext.request.contextPath}/welcome.jhtml" method="post">
                 <input type="hidden" name="action" value="ВЫЙТИ">
@@ -27,7 +27,7 @@
             </form>
         </div>
     </div>
-    <t:menu roles="${sessionScope.roles}" />
+    <t:menu/>
 </div>
 </body>
 </html>

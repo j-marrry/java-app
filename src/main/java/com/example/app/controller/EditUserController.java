@@ -2,9 +2,14 @@ package com.example.app.controller;
 
 import com.example.app.domain.User;
 import com.example.app.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,17 +33,13 @@ public class EditUserController {
     @GetMapping
     public String showEditUserForm(@RequestParam("username") String username,
                                    @RequestParam(value = "action", required = false) String action,
-                                   HttpSession session,
                                    Model model) {
 
         User user = userService.findByUsername(username);
 
         if ("delete".equals(action)) {
-            if (username.equals(session.getAttribute("username"))) {
-                session.invalidate();
-            }
             userService.delete(user.getId());
-            return "redirect:/users.jhtml";
+            return "redirect:/login.jhtml";
         }
 
         model.addAttribute("user", user);
@@ -48,9 +49,11 @@ public class EditUserController {
     }
 
     @PostMapping
-    public String editUser(@Valid @ModelAttribute("user") User user,
+    public String editUser(@AuthenticationPrincipal User userDetails,
+                           @Valid @ModelAttribute("user") User user,
                            BindingResult result, Model model,
-                           HttpSession session) {
+                           HttpServletRequest request,
+                           HttpServletResponse response) {
 
         if (result.hasErrors()) {
             model.addAttribute("user", user);
@@ -62,15 +65,10 @@ public class EditUserController {
 
         userService.update(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), user.getLastname(), user.getFirstname(), user.getPatronymic(), user.getBirthday(), user.getRoles());
 
-        if (session.getAttribute("username").equals(user.getUsername())) {
-            session.setAttribute("username", user.getUsername());
-            session.setAttribute("password", user.getPassword());
-            session.setAttribute("email", user.getEmail());
-            session.setAttribute("lastname", user.getLastname());
-            session.setAttribute("firstname", user.getFirstname());
-            session.setAttribute("patronymic", user.getPatronymic());
-            session.setAttribute("birthday", user.getBirthday());
-            session.setAttribute("roles", user.getRoles());
+        if (userDetails.getId()==user.getId()) {
+            SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+            logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+            return "redirect:/login.jhtml";
         }
 
         return "redirect:/users.jhtml";

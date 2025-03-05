@@ -1,14 +1,17 @@
 package com.example.app.controller;
 
 import com.example.app.domain.PasswordChangeForm;
+import com.example.app.domain.User;
 import com.example.app.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Objects;
 
@@ -29,10 +32,12 @@ public class PasschangeController {
     }
 
     @PostMapping
-    public String changePassword(@Valid @ModelAttribute("passwordChangeForm") PasswordChangeForm form,
+    public String changePassword(@AuthenticationPrincipal User userDetails,
+                                 @Valid @ModelAttribute("passwordChangeForm") PasswordChangeForm form,
                                  BindingResult bindingResult,
                                  @RequestParam("action") String action,
-                                 Model model, HttpSession session) {
+                                 Model model,
+                                 RedirectAttributes redirectAttributes) {
 
         if ("ГЛАВНАЯ".equals(action)) {
             return "redirect:/welcome.jhtml";
@@ -40,25 +45,24 @@ public class PasschangeController {
 
         if (bindingResult.hasErrors()) {
             String errorMessage = bindingResult.getFieldError().getDefaultMessage();
-            model.addAttribute("errorMessage", errorMessage);
-            return "passchange";
+            redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+            return "redirect:/passchange.jhtml";
         }
 
-        String username = session.getAttribute("username").toString();
+        String username = userDetails.getUsername();
         if("СМЕНИТЬ".equals(action)){
             if (username != null && form.getOldPassword() != null && form.getNewPassword() != null) {
                 if (userService.checkPassword(username, form.getOldPassword())) {
                     if (Objects.equals(form.getConfirmPassword(), form.getNewPassword())) {
                         userService.changePassword(username, form.getNewPassword());
-                        session.setAttribute("password", form.getNewPassword());
                         return "redirect:/welcome.jhtml";
                     } else {
-                        model.addAttribute("errorMessage", "Пароли не совпадают");
-                        return "passchange";
+                        redirectAttributes.addFlashAttribute("errorMessage", "Пароли не совпадают");
+                        return "redirect:/passchange.jhtml";
                     }
                 } else {
-                    model.addAttribute("errorMessage", "Старый пароль неверен");
-                    return "passchange";
+                    redirectAttributes.addFlashAttribute("errorMessage", "Старый пароль неверен");
+                    return "redirect:/passchange.jhtml";
                 }
             }
         }
