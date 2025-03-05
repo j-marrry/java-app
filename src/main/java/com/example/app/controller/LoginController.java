@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.Locale;
 
@@ -22,11 +23,13 @@ import java.util.Locale;
 public class LoginController {
     private final UserService userService;
     private final MessageSource messageSource;
+    private final LocaleResolver localeResolver;
 
     @Autowired
-    public LoginController(UserService userService, MessageSource messageSource) {
+    public LoginController(UserService userService, MessageSource messageSource, LocaleResolver localeResolver) {
         this.userService = userService;
         this.messageSource = messageSource;
+        this.localeResolver = localeResolver;
     }
 
     @GetMapping
@@ -34,31 +37,10 @@ public class LoginController {
                                 Model model,
                                 HttpServletRequest request) {
         if (error != null) {
-            Locale locale = request.getLocale();
+            Locale locale = localeResolver.resolveLocale(request);
             String errorMessage = messageSource.getMessage("login.errorMessage", null, locale);
             model.addAttribute("errorMessage", errorMessage);
         }
         return "login";
     }
-
-    /*@PostMapping
-    public String login(@RequestParam("login") String login,
-                        @RequestParam("password") String password,
-                        Model model, HttpSession session) {
-        if(userService.checkPassword(login, password)) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-            return "redirect:/welcome.jhtml";
-        }
-        else {
-            Locale locale = (Locale) session.getAttribute("lang");
-            if (locale == null) {
-                locale = Locale.getDefault();
-            }
-
-            String errorMessage = messageSource.getMessage("login.errorMessage", null, locale);
-            model.addAttribute("errorMessage", errorMessage);
-            return "login";
-        }
-    }*/
 }
