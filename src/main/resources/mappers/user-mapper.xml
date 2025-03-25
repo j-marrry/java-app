@@ -21,6 +21,12 @@
         FROM users u;
     </select>
 
+    <select id="read" resultMap="UserMap">
+        SELECT u.*, ARRAY(SELECT r.name FROM roles r JOIN user_roles ur ON r.id = ur.role_id WHERE ur.user_id = u.id) AS roles
+        FROM users u
+        WHERE u.id = #{id};
+    </select>
+
     <select id="findByUsername" resultMap="UserMap">
         SELECT u.*, ARRAY(SELECT r.name FROM roles r JOIN user_roles ur ON r.id = ur.role_id WHERE ur.user_id = u.id) AS roles
         FROM users u

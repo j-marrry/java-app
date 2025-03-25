@@ -26,21 +26,7 @@ public class SecurityConfig{
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login.jhtml").permitAll()
-                        .requestMatchers("/WEB-INF/**").permitAll()
-                        .requestMatchers("/users.jhtml", "/edituser.jhtml", "/adduser.jhtml").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
-                .formLogin(login -> login
-                        .loginPage("/login.jhtml")
-                        .defaultSuccessUrl("/welcome.jhtml", true)
-                        .failureUrl("/login.jhtml?error")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout.jhtml")
-                        .logoutSuccessUrl("/login.jhtml")
-                        .permitAll()
+                        .anyRequest().permitAll()
                 )
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler((request, response, accessDeniedException) -> {

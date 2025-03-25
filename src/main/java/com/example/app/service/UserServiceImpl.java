@@ -2,16 +2,12 @@ package com.example.app.service;
 
 import com.example.app.dao.UserDao;
 import com.example.app.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -26,9 +22,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void create(String username, String password, String email, String lastname, String firstname, String patronymic, LocalDate birthday, List<String> roles) {
-        String encodedPassword = passwordEncoder.encode(password);
-        User user = new User(username, encodedPassword, email, lastname, firstname, patronymic, birthday, roles);
+    public void create(User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         userDao.create(user);
         userDao.createUserRole(user);
     }
@@ -49,19 +45,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void delete(int id) {
+    public User findById(int id) {
+        return userDao.read(id);
+    }
+
+    @Override
+    public boolean delete(int id) {
         userDao.delete(id);
+        return true;
     }
 
     @Override
-    public void update(int id, String username, String password, String email, String lastname, String firstname, String patronymic, LocalDate birthday, List<String> roles) {
-        User user = new User(id, username, password, email, lastname, firstname, patronymic, birthday, roles);
+    public boolean update(int id, User user) {
+        user.setId(id);
         userDao.update(user);
+        return true;
     }
 
     @Override
-    public boolean checkPassword(String username, String oldPassword) {
-        User user = userDao.findByUsername(username);
+    public boolean checkPassword(int id, String oldPassword) {
+        User user = userDao.read(id);
         if (user == null) {
             return false;
         }
@@ -69,13 +72,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void changePassword(String username, String newPassword) {
-        User user = userDao.findByUsername(username);
+    public boolean changePassword(int id, String newPassword) {
+        User user = userDao.read(id);
         if (user == null) {
-            throw new IllegalArgumentException("User not found for username: " + username);
+            throw new IllegalArgumentException("User not found for ID: " + id);
         }
         user.setPassword(passwordEncoder.encode(newPassword));
         userDao.update(user);
+        return true;
     }
 
     @Override
